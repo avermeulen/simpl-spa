@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>simple-spa</title>
+    <script src="jquery.min.js">
+
+    </script>
+    <script type="text/javascript">
+      $(function(){
+        $(window).on('hashchange', function(){
+          console.log(window.location.hash);
+        });
+      });
+
+      function ready(fn) {
+        if (document.readyState != 'loading'){
+          fn();
+        } else {
+          document.addEventListener('DOMContentLoaded', fn);
+        }
+      }
+
+      ready(function(){
+        window.addEventListener('hashchange', function(e){
+          console.log(e.newURL);
+          console.log(e.oldURL);
+        });
+      });
+
+      setTimeout(function () {
+        window.location.hash = "#blah"
+      }, 5000);
+    </script>
+  </head>
+  <body>
+    <h1>Go!</h1>
+  </body>
+</html>
