@@ -3,9 +3,21 @@
   <head>
     <meta charset="utf-8">
     <title>simple-spa</title>
-    <script src="jquery.min.js">
+    <script src="jquery.min.js"></<script type="text/javascript">
 
     </script>
+    <script src="handlebars.min.js">
+
+    </script>
+
+    <script id="coderView" type="type="x-handlebars-template>
+      <h2>Coder</h2>
+    </script>
+    <script id="codersView" type="type="x-handlebars-template>
+      <h2>Coders</h2>
+      <button type="button" name="button" id="showCoder" >Show</button>
+    </script>
+
     <script type="text/javascript">
       $(function(){
         $(window).on('hashchange', function(){
@@ -26,14 +38,40 @@
           console.log(e.newURL);
           console.log(e.oldURL);
         });
+
+        function template(elemId){
+          var htmlSection = document.getElementById(elemId).innerHTML;
+          return Handlebars.compile(htmlSection);
+        }
+
+        function render(target, template){
+          var content = document.getElementById(target);
+          content.innerHTML = template();
+        }
+
+        //templates
+        var coderTemplate =  template('coderView');
+        var codersTemplate = template('codersView');
+
+        render('content', codersTemplate);
+
+        document.getElementById('showCoder').addEventListener('click', function () {
+          render('content', coderTemplate);
+        });
+
       });
 
-      setTimeout(function () {
-        window.location.hash = "#blah"
-      }, 5000);
+
+
+
+
+
     </script>
   </head>
   <body>
     <h1>Go!</h1>
+    <div id="content">
+
+    </div>
   </body>
 </html>
