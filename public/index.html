@@ -39,25 +39,48 @@
           console.log(e.oldURL);
         });
 
-        function template(elemId){
-          var htmlSection = document.getElementById(elemId).innerHTML;
-          return Handlebars.compile(htmlSection);
-        }
+        function template(templateElemId){
+          var htmlSection = document.getElementById(templateElemId).innerHTML;
+          var template = Handlebars.compile(htmlSection);
 
-        function render(target, template){
-          var content = document.getElementById(target);
-          content.innerHTML = template();
+          function render(target, template){
+            var content = document.getElementById(target);
+            content.innerHTML = template();
+          }
+
+          var events = [];
+
+          return {
+            show : function (targetElemId) {
+                render(targetElemId, template);
+                events.forEach(function(event){
+
+                  document
+                    .getElementById(event.id)
+                    .addEventListener(event.type, event.evt);
+
+                });
+                return this;
+            },
+            on : function(){
+              events.push({type : arguments[0], id : arguments[1], evt : arguments[2] })
+              return this;
+            }
+          }
         }
 
         //templates
         var coderTemplate =  template('coderView');
         var codersTemplate = template('codersView');
 
-        render('content', codersTemplate);
+        codersTemplate
+          .on('click', 'showCoder', function() {
 
-        document.getElementById('showCoder').addEventListener('click', function () {
-          render('content', coderTemplate);
-        });
+            //
+            coderTemplate.show('content');
+
+          })
+          .show('content');
 
       });
 
